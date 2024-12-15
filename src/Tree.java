@@ -19,14 +19,13 @@ class Node {
  */
 public class Tree {
     private Node root;
-    
     public Scene[] traversePreOrder() {
         int size = countNodes(root);
         Scene[] scenes = new Scene[size];
         traversePreOrder(root, scenes, 0);
         return scenes;
     }
-
+    
     private int traversePreOrder(Node node, Scene[] scenes, int index) {
         if (node != null) {
             scenes[index++] = node.scene; 
@@ -35,7 +34,6 @@ public class Tree {
         }
         return index;
     }
-
     public Scene[] traverseInOrder() {
         int size = countNodes(root);
         Scene[] scenes = new Scene[size];
