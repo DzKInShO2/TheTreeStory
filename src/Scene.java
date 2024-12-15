@@ -8,4 +8,6 @@
  */
 public class Scene {
 
+    public static final char[] scene = null;
+
 }
