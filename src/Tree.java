@@ -1,25 +1,38 @@
 /*
- * Kelas <Node> ini digunakan sebagai node
- * yang akan digunakan oleh kelas Tree
- */
-
-class Node {
-    Node next, prev;
-    Scene scene;
-
-    public Node(Scene scene) {
-        this.next = null;
-        this.prev = null;
-        this.scene = scene;
-    }
-}
-
-/*
  * Kelas <Tree> ini merupakan implementasi tipe data
  * Tree
  */
 public class Tree {
     private Node root;
+    private Node pivot;
+
+    public Tree() {
+        root = null;
+        pivot = null;
+    }
+
+    public boolean isPivotOnRoot() {
+        return pivot.equals(root);
+    }
+
+    public Scene getPivot() {
+        return pivot.scene;
+    }
+
+    public void surface() {
+        pivot = root;
+    }
+
+    public void diveRight() {
+        if (pivot.right != null)
+            pivot = pivot.right;
+    }
+
+    public void diveLeft() {
+        if (pivot.left != null)
+            pivot = pivot.left;
+    }
+
     public Scene[] traversePreOrder() {
         int size = countNodes(root);
         Scene[] scenes = new Scene[size];
@@ -30,8 +43,8 @@ public class Tree {
     private int traversePreOrder(Node node, Scene[] scenes, int index) {
         if (node != null) {
             scenes[index++] = node.scene; 
-            index = traversePreOrder(node.next, scenes, index);
-            index = traversePreOrder(node.prev, scenes, index);
+            index = traversePreOrder(node.left, scenes, index);
+            index = traversePreOrder(node.right, scenes, index);
         }
         return index;
     }
@@ -44,9 +57,9 @@ public class Tree {
 
     private int traverseInOrder(Node node, Scene[] scenes, int index) {
         if (node != null) {
-            index = traverseInOrder(node.next, scenes, index);
+            index = traverseInOrder(node.left, scenes, index);
             scenes[index++] = node.scene; 
-            index = traverseInOrder(node.prev, scenes, index);
+            index = traverseInOrder(node.right, scenes, index);
         }
         return index;
     }
@@ -55,30 +68,31 @@ public class Tree {
         if (node == null) {
             return 0;
         }
-        return 1 + countNodes(node.next) + countNodes(node.prev);
+        return 1 + countNodes(node.left) + countNodes(node.right);
     }
 
-     public void insertOrderTraversal(Scene scene) {
+     public void insert(Scene scene) {
         Node newNode = new Node(scene);
         if (root == null) {
             root = newNode;
+            pivot = root;
         } else {
-            insertOrderTraversal(root, newNode);
+            insert(root, newNode);
         }
     }
 
-    private void insertOrderTraversal(Node current, Node newNode) {
-        if (newNode.scene.idScene < current.scene.idScene) {
-            if (current.next == null) {
-                current.next = newNode;
+    private void insert(Node current, Node newNode) {
+        if (newNode.scene.id < current.scene.id) {
+            if (current.left == null) {
+                current.left = newNode;
             } else {
-                insertOrderTraversal(current.next, newNode);
+                insert(current.left, newNode);
             }
         } else {
-            if (current.prev == null) {
-                current.prev = newNode;
+            if (current.right == null) {
+                current.right = newNode;
             } else {
-                insertOrderTraversal(current.prev, newNode);
+                insert(current.right, newNode);
             }
         }
     }
@@ -98,11 +112,11 @@ public class Tree {
             Node node = queue.dequeue();
             scenes[index++] = node.scene;
 
-            if (node.next != null) {
-                queue.enqueue(node.next);
+            if (node.left != null) {
+                queue.enqueue(node.left);
             }
-            if (node.prev != null) {
-                queue.enqueue(node.prev);
+            if (node.right != null) {
+                queue.enqueue(node.right);
             }
         }
         return scenes;
@@ -147,6 +161,18 @@ public class Tree {
         }
     }
 
+    /*
+     * Kelas <Node> ini digunakan sebagai node
+     * yang akan digunakan oleh kelas Tree
+     */
+    private class Node {
+        Node left, right;
+        Scene scene;
+
+        public Node(Scene scene) {
+            this.left = null;
+            this.right = null;
+            this.scene = scene;
+        }
+    }
 }
-
-

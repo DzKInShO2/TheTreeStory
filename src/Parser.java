@@ -22,7 +22,7 @@ public class Parser {
     }
 
     public Scene nextScene() {
-        int line = 0;
+        if (!fileScanner.hasNextLine()) return null;
 
         int sceneId = 0;
         String[] sceneGraphics = new String[16];
@@ -31,6 +31,7 @@ public class Parser {
         String sceneQuestion = "";
         String[] sceneChoices = new String[2];
 
+        int line = 0;
         while (line < 22 &&
                 fileScanner.hasNextLine()) {
             if (line == 0) {
