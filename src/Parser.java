@@ -45,7 +45,7 @@ public class Parser {
                     BigInteger g = hex.shiftRight(16).and(new BigInteger("FF", 16));
                     BigInteger b = hex.shiftRight(8).and(new BigInteger("FF", 16));
 
-                    row += String.format("\033[48;2;%d;%d;%dm \033[0m", r, g, b);
+                    row += String.format("\033[48;2;%d;%d;%dm  \033[0m", r, g, b);
                 }
                 sceneGraphics[line - 1] = row;
             } else if (line == 17) {
