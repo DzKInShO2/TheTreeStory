@@ -42,6 +42,16 @@ public class Scene {
         this.choices = pilihanScene;
     }
 
+    public void drawGraphics() {
+        System.out.printf("╔════════════════════════════════╗\n");
+        for (int i = 0; i < graphics.length; ++i) {
+            System.out.printf("║");
+            System.out.printf(graphics[i]);
+            System.out.printf("║\n");
+        }
+        System.out.printf("╚════════════════════════════════╝\n");
+    }
+
     // Bubble Sort berdasarkan choices
     public static void bubbleSort(Scene[] scenes) {
         int n = scenes.length;
