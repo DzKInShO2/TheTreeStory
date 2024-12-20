@@ -52,18 +52,5 @@ public class Scene {
         System.out.printf("╚════════════════════════════════╝\n");
     }
 
-    // Bubble Sort berdasarkan choices
-    public static void bubbleSort(Scene[] scenes) {
-        int n = scenes.length;
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - i - 1; j++) {
-                if (scenes[j].choices.length > scenes[j + 1].choices.length) {
-                    // Tukar posisi scene[j] dan scene[j + 1]
-                    Scene temp = scenes[j];
-                    scenes[j] = scenes[j + 1];
-                    scenes[j + 1] = temp;
-                }
-            }
-        }
-    }
+    
 }
