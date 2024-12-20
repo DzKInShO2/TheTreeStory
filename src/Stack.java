@@ -31,14 +31,4 @@ public class Stack {
     public int size() {
         return top + 1;
     }
-
-    // Method untuk melihat elemen teratas tanpa menghapusnya
-    public Scene peek() {
-        if (top == -1) { // Mengecek apakah stack kosong
-            System.out.println("Stack is empty! Cannot peek.");
-            return null;
-        } else {
-            return stack[top];
-        }
-    }
 }
