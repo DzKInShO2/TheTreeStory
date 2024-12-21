@@ -57,6 +57,42 @@ public class Main {
 
                         if (traversal == 0) {
                         } else if (traversal == 1) {
+                            Scene[] scenes = tree.traverseLevelOrder();
+                            int idx = -1;
+
+                            while (true) {
+                                clearDisplay();
+                                System.out.println("Skenario");
+                                if (idx != -1) {
+                                    System.out.printf("Scene No. %d\n", scenes[idx].id);
+                                    System.out.printf("Judul : %s\n", scenes[idx].title);
+                                    System.out.printf("Pembukaan : %s\n", scenes[idx].opening);
+                                    scenes[idx].drawGraphics();
+                                }
+                                int act = choiceFromArray(new String[] {
+                                    "Cari Scene Berdasarkan Id",
+                                    "Kembali"
+                                });
+
+                                if (act == 0) {
+                                    System.out.printf("Masukan Id Scene: ");
+                                    String line = scanner.nextLine();
+                                    if (line.length() > 0) {
+                                        int sceneId = Integer.parseInt(line);
+
+                                        for (int i = 0; i < scenes.length; ++i) {
+                                            if (scenes[i].id == sceneId) {
+                                                idx = i;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                } else if (act == 1) {
+                                    break;
+                                } else {
+                                    invalidInputDisplay();
+                                }
+                            }
                         } else if (traversal != 1 && traversal != 4) {
                             Scene[] scenes = (traversal == 2) ? 
                                 tree.traverseLevelOrder() : tree.traverseInOrder();
