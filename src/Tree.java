@@ -62,13 +62,6 @@ public class Tree {
         return index;
     }
 
-    private int countNodes(Node node) {
-        if (node == null) {
-            return 0;
-        }
-        return 1 + countNodes(node.left) + countNodes(node.right);
-    }
-
      public void insert(Scene scene) {
         Node newNode = new Node(scene);
         if (root == null) {
@@ -96,7 +89,6 @@ public class Tree {
     }
 
     public SceneList traverseLevelOrder() {
-        int size = countNodes(root);
         SceneList scenes = new SceneList();
         if (root == null) {
             return scenes;
