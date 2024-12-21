@@ -1,10 +1,19 @@
 public class Stack {
+<<<<<<< HEAD
     public Scene top; 
     public Stack next; 
 
     public Stack() {
         this.top = null;
         this.next = null;
+=======
+    public Scene[] stack; // Array untuk menyimpan Scene
+    public int top;       
+    
+    public SceneStack(int size) {
+        this.stack = new Scene[size]; // Ukuran array ditentukan saat pembuatan stack
+        this.top = -1; 
+>>>>>>> e42b701 (tambah beberapa opsi di menu skenario)
     }
 
     // Method untuk menambahkan Scene ke stack

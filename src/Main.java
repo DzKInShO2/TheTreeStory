@@ -48,12 +48,17 @@ public class Main {
                         clearDisplay();
                         System.out.println("Tampilkan Semua Skenario");
                         int traversal = choiceFromArray(new String[] { 
+                            "Ending Tercapai",
+                            "Cari Skenario",
                             "In Order Traversal",
                             "Level Order Traversal",
                             "Kembali",
                         });
-                        if (traversal != -1 && traversal != 2) {
-                            Scene[] scenes = (traversal == 1) ? 
+
+                        if (traversal == 0) {
+                        } else if (traversal == 1) {
+                        } else if (traversal != 1 && traversal != 4) {
+                            Scene[] scenes = (traversal == 2) ? 
                                 tree.traverseLevelOrder() : tree.traverseInOrder();
                             int index = 0;
 
@@ -84,7 +89,7 @@ public class Main {
                                     invalidInputDisplay();
                                 }
                             }
-                        } else if (traversal == 2) {
+                        } else if (traversal == 4) {
                             break;
                         } else {
                             invalidInputDisplay();
