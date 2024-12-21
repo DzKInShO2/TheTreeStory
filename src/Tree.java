@@ -33,20 +33,6 @@ public class Tree {
             pivot = pivot.left;
     }
 
-    public SceneList traversePreOrder() {
-        SceneList scenes = new SceneList();
-        traversePreOrder(root, scenes, 0);
-        return scenes;
-    }
-    
-    private int traversePreOrder(Node node, SceneList scenes, int index) {
-        if (node != null) {
-            scenes.append(node.scene);
-            index = traversePreOrder(node.left, scenes, index);
-            index = traversePreOrder(node.right, scenes, index);
-        }
-        return index;
-    }
     public SceneList traverseInOrder() {
         SceneList scenes = new SceneList();
         traverseInOrder(root, scenes, 0);
@@ -62,7 +48,7 @@ public class Tree {
         return index;
     }
 
-     public void insert(Scene scene) {
+    public void insert(Scene scene) {
         Node newNode = new Node(scene);
         if (root == null) {
             root = newNode;
