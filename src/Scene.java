@@ -52,5 +52,7 @@ public class Scene {
         System.out.printf("╚════════════════════════════════╝\n");
     }
 
-    
+    public Scene clone() {
+        return new Scene(id, title, graphics, opening, question, choices);
+    }
 }

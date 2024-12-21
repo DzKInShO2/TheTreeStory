@@ -1,48 +1,50 @@
 public class Stack {
-<<<<<<< HEAD
-    public Scene top; 
-    public Stack next; 
+    private Node top;
 
     public Stack() {
         this.top = null;
-        this.next = null;
-=======
-    public Scene[] stack; // Array untuk menyimpan Scene
-    public int top;       
-    
-    public SceneStack(int size) {
-        this.stack = new Scene[size]; // Ukuran array ditentukan saat pembuatan stack
-        this.top = -1; 
->>>>>>> e42b701 (tambah beberapa opsi di menu skenario)
     }
 
     // Method untuk menambahkan Scene ke stack
     public void push(Scene scene) {
-        Stack newNode = new Stack(); // Membuat node baru
-        newNode.top = scene;         // Menyimpan Scene di node baru
-        newNode.next = this.next;    // Menghubungkan node baru ke stack lama
-        this.next = newNode;         // Node baru menjadi elemen pertama
+        Node node = new Node(scene);
+        if (top == null) {
+            top = node;
+            return;
+        }
+
+        node.next = this.top;
+        this.top = node;
     }
 
     // Method untuk menghapus (pop) Scene dari stack
     public Scene pop() {
-        if (this.next == null) { // Mengecek apakah stack kosong
-            System.out.println("Scene is empty! Cannot pull.");
+        if (this.top == null) { // Mengecek apakah stack kosong
+            System.out.println("Tidak ada ending terbaru.");
             return null;
         } else {
-            Scene pulledScene = this.next.top; // Simpan elemen teratas
-            this.next = this.next.next;       // Hapus elemen teratas
+            Scene pulledScene = this.top.scene; // Simpan elemen teratas
+            this.top = this.top.next;       // Hapus elemen teratas
             return pulledScene;
         }
     }
 
     // Method untuk melihat elemen teratas (top) tanpa menghapusnya
     public Scene peek() {
-        if (this.next == null) { // Mengecek apakah stack kosong
-            System.out.println("Scene is empty! Cannot peek.");
+        if (this.top == null) { // Mengecek apakah stack kosong
+            System.out.println("Tidak ada ending terbaru.");
             return null;
         } else {
-            return this.next.top;
+            return this.top.scene;
+        }
+    }
+
+    private class Node {
+        Scene scene;
+        Node next;
+        public Node(Scene scene) {
+            this.scene = scene;
+            this.next = null;
         }
     }
 }

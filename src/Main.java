@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class Main {
     private static Scanner scanner;
+    private static Stack endingStack;
 
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
@@ -14,6 +15,8 @@ public class Main {
                 tree.insert(scene);
             }
         }
+
+        endingStack = new Stack();
 
         while (true) {
             clearDisplay();
@@ -48,7 +51,7 @@ public class Main {
                         clearDisplay();
                         System.out.println("Tampilkan Semua Skenario");
                         int traversal = choiceFromArray(new String[] { 
-                            "Ending Tercapai",
+                            "Ending Terbaru",
                             "Cari Skenario",
                             "In Order Traversal",
                             "Level Order Traversal",
@@ -56,6 +59,26 @@ public class Main {
                         });
 
                         if (traversal == 0) {
+                            while (true) {
+                                clearDisplay();
+                                System.out.println("Ending Terbaru\n");
+                                if (endingStack.peek() != null) {
+                                    endingStack.peek().drawGraphics();
+                                }
+
+                                int opt = choiceFromArray(new String[] {
+                                    "Hapus Ending Terbaru",
+                                    "Kembali"
+                                });
+
+                                if (opt == 0) {
+                                    endingStack.pop();
+                                } else if (opt == 1) {
+                                    break;
+                                } else {
+                                    invalidInputDisplay();
+                                }
+                            }
                         } else if (traversal == 1) {
                             Scene[] scenes = tree.traverseLevelOrder();
                             int idx = -1;
@@ -204,6 +227,7 @@ public class Main {
                 System.out.println("Masukan yang anda masukan tidak valid.");
             } else {
                 System.out.println("Selamat anda telah mendapatkan sebuah ending");
+                endingStack.push(scene.clone());
                 pauseUntilEnter();
                 return 2;
             }
