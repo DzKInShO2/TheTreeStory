@@ -3,11 +3,12 @@ import java.util.Scanner;
 public class Main {
     private static Scanner scanner;
     private static Stack endingStack;
+    private static Tree tree;
 
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
 
-        Tree tree = new Tree();
+        tree = new Tree();
         Parser parser = Parser.loadFile("res/scene.str");
         {
             Scene scene;
@@ -59,90 +60,14 @@ public class Main {
                         });
 
                         if (traversal == 0) {
-                            while (true) {
-                                clearDisplay();
-                                System.out.println("Ending Terbaru\n");
-                                if (endingStack.peek() != null) {
-                                    endingStack.peek().drawGraphics();
-                                }
-
-                                int opt = choiceFromArray(new String[] {
-                                    "Hapus Ending Terbaru",
-                                    "Kembali"
-                                });
-
-                                if (opt == 0) {
-                                    endingStack.pop();
-                                } else if (opt == 1) {
-                                    break;
-                                } else {
-                                    invalidInputDisplay();
-                                }
-                            }
+                            endingDisplay();
                         } else if (traversal == 1) {
-                            Scene[] scenes = tree.traverseLevelOrder();
-                            int idx = -1;
-
-                            while (true) {
-                                clearDisplay();
-                                System.out.println("Skenario");
-                                if (idx != -1) {
-                                    System.out.printf("Scene No. %d\n", scenes[idx].id);
-                                    System.out.printf("Judul : %s\n", scenes[idx].title);
-                                    System.out.printf("Pembukaan : %s\n", scenes[idx].opening);
-                                    scenes[idx].drawGraphics();
-                                }
-                                int act = choiceFromArray(new String[] {
-                                    "Cari Scene Berdasarkan Id",
-                                    "Kembali"
-                                });
-
-                                if (act == 0) {
-                                    System.out.printf("Masukan Id Scene: ");
-                                    String line = scanner.nextLine();
-                                    if (line.length() > 0) {
-                                        int sceneId = Integer.parseInt(line);
-
-                                        idx = searchSceneById(scenes, sceneId);
-                                    }
-                                } else if (act == 1) {
-                                    break;
-                                } else {
-                                    invalidInputDisplay();
-                                }
-                            }
+                            searchDisplay();
                         } else if (traversal != 1 && traversal != 4) {
-                            Scene[] scenes = (traversal == 2) ? 
+                            SceneList scenes = (traversal == 2) ? 
                                 tree.traverseLevelOrder() : tree.traverseInOrder();
-                            int index = 0;
+                            traversalDisplay(scenes);
 
-                            while (true) {
-                                clearDisplay();
-                                System.out.printf("Scene No. %d\n", scenes[index].id);
-                                System.out.println(scenes[index].title);
-                                scenes[index].drawGraphics();
-                                int action = choiceFromArray(new String[] {
-                                    "Berikutnya",
-                                    "Sebelumnya",
-                                    "Kembali"
-                                });
-
-                                if (action == 0) {
-                                    index++;
-                                    if (index >= scenes.length) {
-                                        index = 0;
-                                    } 
-                                } else if (action == 1) {
-                                    index--;
-                                    if (index < 0) {
-                                        index = scenes.length - 1;
-                                    } 
-                                } else if (action == 2) {
-                                    break;
-                                } else {
-                                    invalidInputDisplay();
-                                }
-                            }
                         } else if (traversal == 4) {
                             break;
                         } else {
@@ -159,13 +84,94 @@ public class Main {
         }
     }
 
-    private static int searchSceneById(Scene[] scenes, int sceneId) {
-        for (int i = 0; i < scenes.length; ++i) {
-            if (scenes[i].id == sceneId) {
-                return i;
+    private static void endingDisplay() {
+        while (true) {
+            clearDisplay();
+            System.out.println("Ending Terbaru\n");
+            if (endingStack.peek() != null) {
+                endingStack.peek().drawGraphics();
+            }
+
+            int opt = choiceFromArray(new String[] {
+                "Hapus Ending Terbaru",
+                "Kembali"
+            });
+
+            if (opt == 0) {
+                endingStack.pop();
+            } else if (opt == 1) {
+                break;
+            } else {
+                invalidInputDisplay();
             }
         }
-        return -1;
+    }
+
+    private static void searchDisplay() {
+        SceneList scenes = tree.traverseLevelOrder();
+        Scene scene = null;
+
+        while (true) {
+            clearDisplay();
+            System.out.println("Skenario");
+            if (scene != null) {
+                System.out.printf("Scene No. %d\n", scene.id);
+                System.out.printf("Judul : %s\n", scene.title);
+                System.out.printf("Pembukaan : %s\n", scene.opening);
+                scene.drawGraphics();
+            }
+            int act = choiceFromArray(new String[] {
+                "Cari Scene Berdasarkan Id",
+                "Kembali"
+            });
+
+            if (act == 0) {
+                System.out.printf("Masukan Id Scene: ");
+                String line = scanner.nextLine();
+                if (line.length() > 0) {
+                    int sceneId = Integer.parseInt(line);
+
+                    scene = scenes.search(sceneId);
+                }
+            } else if (act == 1) {
+                break;
+            } else {
+                invalidInputDisplay();
+            }
+        }
+    }
+
+    private static void traversalDisplay(SceneList scenes) {
+        int index = 0;
+        while (true) {
+            Scene scene = scenes.get(index);
+
+            clearDisplay();
+            System.out.printf("Scene No. %d\n", scene.id);
+            System.out.println(scene.title);
+            scene.drawGraphics();
+            int action = choiceFromArray(new String[] {
+                "Berikutnya",
+                "Sebelumnya",
+                "Kembali"
+            });
+
+            if (action == 0) {
+                index++;
+                if (index >= scenes.size()) {
+                    index = 0;
+                } 
+            } else if (action == 1) {
+                index--;
+                if (index < 0) {
+                    index = scenes.size() - 1;
+                } 
+            } else if (action == 2) {
+                break;
+            } else {
+                invalidInputDisplay();
+            }
+        }
     }
 
     private static void invalidInputDisplay() {
@@ -222,7 +228,7 @@ public class Main {
             scene.drawGraphics();
             if (!scene.question.equals("END")) {
                 System.out.println(scene.question);
-                choice = choiceFromArray(scene.choices);
+                choice = choiceFromArray(scene.choices.toArray());
                 if (choice != -1) break;
                 System.out.println("Masukan yang anda masukan tidak valid.");
             } else {

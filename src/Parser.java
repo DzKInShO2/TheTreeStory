@@ -29,7 +29,7 @@ public class Parser {
         String sceneTitle = "";
         String sceneOpening = "";
         String sceneQuestion = "";
-        String[] sceneChoices = new String[2];
+        StringList sceneChoices = new StringList();
 
         int line = 0;
         while (line < 22 &&
@@ -56,7 +56,7 @@ public class Parser {
             } else if (line == 19) {
                 sceneQuestion = fileScanner.nextLine();
             } else if (line > 19) {
-                sceneChoices[line - 20] = fileScanner.nextLine();
+                sceneChoices.append(fileScanner.nextLine());
             }
 
             line++;

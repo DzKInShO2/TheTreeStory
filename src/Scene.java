@@ -15,30 +15,16 @@ public class Scene {
     public String[] graphics; // Gambar dalam scene
     public String opening; // berisi cerita atau pembukaan scene
     public String question; //pertanyaan untuk memilih scene selanjutnya
-    public String[] choices; //pilihan scene yang dapat dipilih
+    public StringList choices; //pilihan scene yang dapat dipilih
 
     public Scene (int id, String judulScene, String[] gambarScene, 
-                  String isiScene, String pertanyaanScene, String[] pilihanScene) {
+                  String isiScene, String pertanyaanScene, StringList pilihanScene) {
         this.id = id;
         this.title = judulScene;
         this.graphics = gambarScene;
         this.opening = isiScene;
         this.question = pertanyaanScene;
-
-        int n = pilihanScene.length;
-        if (n > 0 && 
-            pilihanScene[0].length() > 0 &&
-            pilihanScene[1].length() > 0) {
-            for (int i = 0; i < n - 1; ++i) {
-                for (int j = 0; j < n - i - 1; ++j) {
-                    if (pilihanScene[j].charAt(0) > pilihanScene[j + 1].charAt(0)) {
-                        String temp = pilihanScene[j];
-                        pilihanScene[j] = pilihanScene[j + 1];
-                        pilihanScene[j + 1] = temp;
-                    }
-                }
-            }
-        }
+        pilihanScene.sort();
         this.choices = pilihanScene;
     }
 

@@ -33,32 +33,30 @@ public class Tree {
             pivot = pivot.left;
     }
 
-    public Scene[] traversePreOrder() {
-        int size = countNodes(root);
-        Scene[] scenes = new Scene[size];
+    public SceneList traversePreOrder() {
+        SceneList scenes = new SceneList();
         traversePreOrder(root, scenes, 0);
         return scenes;
     }
     
-    private int traversePreOrder(Node node, Scene[] scenes, int index) {
+    private int traversePreOrder(Node node, SceneList scenes, int index) {
         if (node != null) {
-            scenes[index++] = node.scene; 
+            scenes.append(node.scene);
             index = traversePreOrder(node.left, scenes, index);
             index = traversePreOrder(node.right, scenes, index);
         }
         return index;
     }
-    public Scene[] traverseInOrder() {
-        int size = countNodes(root);
-        Scene[] scenes = new Scene[size];
+    public SceneList traverseInOrder() {
+        SceneList scenes = new SceneList();
         traverseInOrder(root, scenes, 0);
         return scenes;
     }
 
-    private int traverseInOrder(Node node, Scene[] scenes, int index) {
+    private int traverseInOrder(Node node, SceneList scenes, int index) {
         if (node != null) {
             index = traverseInOrder(node.left, scenes, index);
-            scenes[index++] = node.scene; 
+            scenes.append(node.scene);
             index = traverseInOrder(node.right, scenes, index);
         }
         return index;
@@ -97,20 +95,20 @@ public class Tree {
         }
     }
 
-    public Scene[] traverseLevelOrder() {
+    public SceneList traverseLevelOrder() {
         int size = countNodes(root);
-        Scene[] scenes = new Scene[size];
+        SceneList scenes = new SceneList();
         if (root == null) {
             return scenes;
         }
 
-        Queue queue = new Queue(size);
+        Queue queue = new Queue();
         queue.enqueue(root);
         int index = 0;
 
         while (!queue.isEmpty()) {
             Node node = queue.dequeue();
-            scenes[index++] = node.scene;
+            scenes.append(node.scene);
 
             if (node.left != null) {
                 queue.enqueue(node.left);
@@ -120,45 +118,6 @@ public class Tree {
             }
         }
         return scenes;
-    }
-
-    private static class Queue {
-        private Node[] elements;
-        private int front;
-        private int rear;
-        private int size;
-        private int capacity;
-
-        public Queue(int capacity) {
-            this.capacity = capacity;
-            elements = new Node[capacity];
-            front = 0;
-            rear = -1;
-            size = 0;
-        }
-
-        public void enqueue(Node node) {
-            if (size == capacity) {
-                throw new IllegalStateException("Queue is full");
-            }
-            rear = (rear + 1) % capacity;
-            elements[rear] = node;
-            size++;
-        }
-
-        public Node dequeue() {
-            if (isEmpty()) {
-                throw new IllegalStateException("Queue is empty");
-            }
-            Node node = elements[front];
-            front = (front + 1) % capacity;
-            size--;
-            return node;
-        }
-
-        public boolean isEmpty() {
-            return size == 0;
-        }
     }
 
     /*
@@ -173,6 +132,52 @@ public class Tree {
             this.left = null;
             this.right = null;
             this.scene = scene;
+        }
+    }
+
+    private class Queue {
+        private QueueNode front;
+        private QueueNode back;
+
+        public Queue() {
+            this.front = null;
+            this.back = null;
+        }
+
+        public boolean isEmpty() {
+            return this.front == null;
+        }
+
+        public void enqueue(Node node) {
+            QueueNode q = new QueueNode(node);
+            if (this.front == null) {
+                this.front = q;
+                this.back = q;
+                return;
+            }
+
+            back.next = q;
+            back = back.next;
+        }
+
+        public Node dequeue() {
+            if (isEmpty()) {
+                throw new IllegalStateException("Queue is empty");
+            }
+
+            QueueNode q = front;
+            front = front.next;
+            return q.node;
+        }
+
+        private class QueueNode {
+            public QueueNode next;
+            public Node node;
+
+            public QueueNode(Node node) {
+                this.node = node;
+                this.next = null;
+            }
         }
     }
 }
