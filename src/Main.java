@@ -80,12 +80,7 @@ public class Main {
                                     if (line.length() > 0) {
                                         int sceneId = Integer.parseInt(line);
 
-                                        for (int i = 0; i < scenes.length; ++i) {
-                                            if (scenes[i].id == sceneId) {
-                                                idx = i;
-                                                break;
-                                            }
-                                        }
+                                        idx = searchSceneById(scenes, sceneId);
                                     }
                                 } else if (act == 1) {
                                     break;
@@ -139,6 +134,15 @@ public class Main {
                     break;
             }
         }
+    }
+
+    private static int searchSceneById(Scene[] scenes, int sceneId) {
+        for (int i = 0; i < scenes.length; ++i) {
+            if (scenes[i].id == sceneId) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private static void invalidInputDisplay() {
