@@ -65,7 +65,7 @@ public class Main {
                             searchDisplay();
                         } else if (traversal != 1 && traversal != 4) {
                             SceneList scenes = (traversal == 2) ? 
-                                tree.traverseLevelOrder() : tree.traverseInOrder();
+                                tree.traverseInOrder() : tree.traverseLevelOrder();
                             traversalDisplay(scenes);
 
                         } else if (traversal == 4) {

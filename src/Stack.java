@@ -12,7 +12,6 @@ public class Stack {
             top = node;
             return;
         }
-
         node.next = this.top;
         this.top = node;
     }
